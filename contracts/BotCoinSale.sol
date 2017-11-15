@@ -1,4 +1,4 @@
-pragma solidity ^0.4.15;
+pragma solidity ^0.4.17;
 
 import 'zeppelin-solidity/contracts/ownership/Ownable.sol';
 import './BotCoin.sol';
@@ -124,6 +124,9 @@ contract BotCoinSale is Ownable {
     require(beneficiary != address(0));
     require(validPurchase());
 
+    // TODO : give change : (weiRaised - hardCap)
+    // TODO : check hasEnded() for call finalize()
+
     address purchaser = msg.sender;
     uint256 weiAmount = msg.value;
 
@@ -141,7 +144,7 @@ contract BotCoinSale is Ownable {
     token.mint(beneficiary, tokens);
     TokenPurchase(purchaser, beneficiary, weiAmount, tokens);
 
-    //forwardFunds(); // TODO : forwardFunds after finalize
+    //forwardFunds(); // TODO : to remove - call forwardFunds() after finalize
   }
 
   // calculate token amount to be created
@@ -157,9 +160,10 @@ contract BotCoinSale is Ownable {
   // @return true if the transaction can buy tokens
   function validPurchase() internal constant returns (bool) {
     bool withinPeriod = now >= startTime && now <= endTime;
-    bool nonZeroPurchase = msg.value >= MIN_VALUE;
+    bool validMinValue = msg.value >= MIN_VALUE;
+    // TODO : validate max value
     bool withinCap = weiRaised.add(msg.value) <= hardCap;
-    return withinPeriod && nonZeroPurchase && withinCap;
+    return withinPeriod && validMinValue && withinCap;
   }
 
   // @return true if crowdsale event has ended
@@ -213,7 +217,7 @@ contract BotCoinSale is Ownable {
     require(state == State.Active);
     state = State.Closed;
     //Closed();
-    wallet.transfer(this.balance); // forwardFunds
+    forwardFunds();
   }
 
   function enableRefunds() onlyOwner internal {
@@ -223,7 +227,7 @@ contract BotCoinSale is Ownable {
   }
 
   function refund(address purchaser) public {
-    // TODO : exclude preSale investors but include preCommitments
+    // TODO : exclude (except) preSale investors but include preCommitments
     require(state == State.Refunding);
     uint256 weiAmount = weiBalances[purchaser];
     weiBalances[purchaser] = 0;

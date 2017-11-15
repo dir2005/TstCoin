@@ -16,12 +16,14 @@
     "babel-register": "^6.26.0",
     "chai": "^4.1.2",
     "chai-as-promised": "^7.1.1",
-    "chai-bignumber": "^2.0.1"
+    "chai-bignumber": "^2.0.1",
+    "ethereumjs-testrpc": "^4.1.1",
+    "truffle": "^4.0.1"
   },
   "scripts": {
     "test": "truffle test"
   },
-  "author": "",
+  "author": "dir",
   "license": "MIT",
-  "description": ""
+  "description": "botcoin description"
 }
