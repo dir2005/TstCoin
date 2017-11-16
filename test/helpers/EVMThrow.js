@@ -1,2 +1,2 @@
-export default 'invalid opcode'
-//export default 'revert'
+//export default 'invalid opcode'
+export default 'revert'

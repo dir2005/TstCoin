@@ -12,11 +12,8 @@ contract BotCoinSale is Ownable {
   using SafeMath for uint256;
 
   //uint256 private constant E18 = 10**18;
-
   //uint256 private constant ETH_DECIMALS = 18;
-
   //uint256 private constant BOT_DECIMALS = 9;
-
   //uint256 private constant BOT_PER_ETH = 10000;
 
   // minimum purchase amount in weis (1 BOT = 0.0001 ETH)
@@ -115,7 +112,7 @@ contract BotCoinSale is Ownable {
 */
 
   // fallback function can be used to buy tokens
-  function () public payable {
+  function() public payable {
     buyTokens(msg.sender);
   }
 
@@ -136,7 +133,6 @@ contract BotCoinSale is Ownable {
     // update state
 
     tokensRaised = tokensRaised.add(tokens);
-
     weiRaised = weiRaised.add(weiAmount);
 
     weiBalances[purchaser] = weiBalances[purchaser].add(weiAmount);
@@ -148,7 +144,7 @@ contract BotCoinSale is Ownable {
   }
 
   // calculate token amount to be created
-  function calculateTokens(uint256 weiAmount) internal constant returns (uint256) {
+  function calculateTokens(uint256 weiAmount) public constant returns (uint256) {
     return weiAmount.div(rate);
   }
 
