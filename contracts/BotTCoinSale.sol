@@ -54,6 +54,7 @@ contract BotTCoinSale is Ownable, HasNoTokens {
     require(_wallet != address(0));
 
     token = new BotTCoin(); // create or arg
+    wallet = _wallet;
 
   }
 

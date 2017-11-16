@@ -4,6 +4,10 @@ import 'zeppelin-solidity/contracts/token/MintableToken.sol';
 import 'zeppelin-solidity/contracts/ownership/HasNoTokens.sol';
 import 'zeppelin-solidity/contracts/ownership/HasNoEther.sol';
 
+/**
+ * @title BotTCoin
+ */
+
 contract BotTCoin is MintableToken, HasNoTokens, HasNoEther {
 
   string public constant name = "BOTT";
